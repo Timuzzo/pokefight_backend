@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const connectDB = require ('./dbconnect')
 const pokeRoutes = require("./routes/poke")
+const resultRoutes = require("./routes/result")
 
 const PORT = process.env.PORT || 8000;
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 app.use("/poke", pokeRoutes);
+app.use("/results", resultRoutes)
 
 app.get("/", (req, res) => {
     res.send("Welcome to my API")
