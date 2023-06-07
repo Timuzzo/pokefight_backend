@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 require('dotenv').config();
 const connectDB = require ('./dbconnect')
-const pokeRoutes = require("./routes/poke")
+const pokeRoutes = require("./routes/Poke")
 
 const PORT = process.env.PORT || 8000;
 
