@@ -27,10 +27,10 @@ const getAllFighters = async (req, res) => {
 // get one Fighter
 const getOneFighter = async (req, res) => {
     try {
-        const {id} = req.params;
-        const fighter = await Fighter.findById(id);
+        const {name} = req.params;
+        const fighter = await Fighter.findOne({name});
         if (!fighter) {
-            res.status(404).json({msg: "No fighter found"})
+            res.status(200).json(null)
         } else {
             res.status(200).json({data: fighter})
         };
@@ -41,17 +41,14 @@ const getOneFighter = async (req, res) => {
     }
 }
 
-
-//update one fighter
-const updateFighter = async (req, res) => {
+//update one winner fighter
+const updateFighterWinner = async (req, res) => {
     try {
-        const {id} = req.params;
-        const {name, wins, loses} = req.body;
-        const fighter = await Fighter.findByIdAndUpdate(id, 
+        const {name} = req.params;
+        const {wins} = req.body;
+        const fighter = await Fighter.findOneAndUpdate({name}, 
         {
-            name, 
-            wins, 
-            loses
+            $inc:{wins: 1}
         }, 
         {
             new: true
@@ -60,7 +57,7 @@ const updateFighter = async (req, res) => {
     if (!fighter) {
         res.status(404).json({msg: "Fighter can't be found "})
     } else {
-        res.status(200).json({data: fighter, msg: "Fighter updated successfully"})
+        res.status(200).json({data: fighter, msg: "Fighter winner updated successfully"})
     }
     } catch (error) {
         res.status(500).json({
@@ -69,4 +66,29 @@ const updateFighter = async (req, res) => {
     }
 }
 
-module.exports = {updateFighter, getAllFighters, getOneFighter, createFighter}
+//update one loser fighter
+const updateFighterLoser = async (req, res) => {
+    try {
+        const {name} = req.params;
+        const {loses} = req.body;
+        const fighter = await Fighter.findOneAndUpdate({name}, 
+        {
+            $inc:{loses: 1}
+        }, 
+        {
+            new: true
+        }
+        );
+    if (!fighter) {
+        res.status(404).json({msg: "Fighter can't be found "})
+    } else {
+        res.status(200).json({data: fighter, msg: "Fighter loser updated successfully"})
+    }
+    } catch (error) {
+        res.status(500).json({
+            error
+        })
+    }
+}
+
+module.exports = {updateFighterWinner, updateFighterLoser, getAllFighters, getOneFighter, createFighter}

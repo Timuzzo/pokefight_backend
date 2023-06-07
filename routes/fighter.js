@@ -1,6 +1,7 @@
 const express = require('express');
 const {
-    updateFighter, 
+    updateFighterLoser,
+    updateFighterWinner,
     getAllFighters, 
     getOneFighter, 
     createFighter
@@ -8,9 +9,9 @@ const {
 
 const api = express.Router();
 
-
-// discuss with team /wrt the endpoint
 api.route('/').get(getAllFighters).post(createFighter);
-api.route('/:id').get(getOneFighter).put(updateFighter);
+api.route('/:name').get(getOneFighter)
+api.route('/winner/:name').put(updateFighterWinner)
+api.route('/loser/:name').put(updateFighterLoser)
 
 module.exports = api;
